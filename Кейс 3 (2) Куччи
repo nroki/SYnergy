@@ -1,0 +1,51 @@
+namespace {
+
+class HeapTest : public ::testing::Test {
+protected:
+    // Используем Min-Heap (Минимальную кучу) для примера
+    Heap<int> heap_;
+
+    void SetUp() override {
+        // Добавление некоторого начального набора данных
+        heap_.push(50);
+        heap_.push(10);
+        heap_.push(70);
+        heap_.push(5);
+    }
+};
+
+// Проверка, что pop всегда возвращает минимальный элемент (для Min-Heap)
+TEST_F(HeapTest, PopReturnsMinElement) {
+    // В SetUp добавлено: 5, 10, 50, 70. Ожидаем 5.
+    EXPECT_EQ(5, heap_.pop());
+    // Ожидаем 10.
+    EXPECT_EQ(10, heap_.pop());
+}
+
+// Проверка добавления элемента и сохранения свойства кучи
+TEST_F(HeapTest, HeapPropertyMaintainedAfterPush) {
+    // В SetUp добавлено: 5, 10, 50, 70 (в порядке извлечения)
+    heap_.push(1); // Добавляем новый минимум
+    EXPECT_EQ(1, heap_.pop());
+    EXPECT_EQ(5, heap_.pop());
+}
+
+// Проверка pop до полного опустошения кучи
+TEST_F(HeapTest, PopUntilEmpty) {
+    // Опустошаем 4 элемента, добавленные в SetUp
+    for (int i = 0; i < 4; ++i) {
+        heap_.pop();
+    }
+    ASSERT_TRUE(heap_.empty());
+    // Проверка, что pop на пустой куче вызывает исключение
+    EXPECT_THROW(heap_.pop(), std::out_of_range);
+}
+
+// Проверка обработки дубликатов
+TEST_F(HeapTest, PushDuplicateValues) {
+    heap_.push(5);
+    EXPECT_EQ(5, heap_.pop());
+    EXPECT_EQ(5, heap_.pop()); // Извлекаем первый 5, потом второй 5
+}
+
+} // namespace
