@@ -1,0 +1,64 @@
+namespace {
+
+class BinaryTreeTest : public ::testing::Test {
+protected:
+    // Предполагаем, что это Бинарное Дерево Поиска (BST)
+    BinaryTree<int> tree_;
+
+    void SetUp() override {
+        // Добавление стандартного набора данных
+        tree_.push(50); // Корень
+        tree_.push(30);
+        tree_.push(70);
+        tree_.push(10);
+        tree_.push(40);
+        tree_.push(80);
+    }
+};
+
+// Проверка поиска для существующих элементов
+TEST_F(BinaryTreeTest, SearchForExistingElement) {
+    EXPECT_TRUE(tree_.search(30));
+    EXPECT_TRUE(tree_.search(80));
+    EXPECT_TRUE(tree_.search(50)); // Проверка корня
+}
+
+// Проверка поиска для отсутствующих элементов
+TEST_F(BinaryTreeTest, SearchForNonExistentElement) {
+    EXPECT_FALSE(tree_.search(99));
+    EXPECT_FALSE(tree_.search(25));
+}
+
+// Проверка вставки и поиска в изначально пустом дереве
+TEST_F(BinaryTreeTest, PushAndSearchInEmptyTree) {
+    BinaryTree<int> empty_tree;
+    empty_tree.push(15);
+    EXPECT_TRUE(empty_tree.search(15));
+}
+
+// Проверка удаления листового узла (нет дочерних элементов)
+TEST_F(BinaryTreeTest, PopLeafNode) {
+    ASSERT_TRUE(tree_.search(10));
+    tree_.pop(10);
+    EXPECT_FALSE(tree_.search(10));
+    EXPECT_TRUE(tree_.search(30)); // Проверка, что родительский узел цел
+}
+
+// Проверка удаления узла, которого нет в дереве
+TEST_F(BinaryTreeTest, PopNonExistentNode) {
+    // pop() не должен изменять состояние дерева
+    ASSERT_FALSE(tree_.search(100));
+    tree_.pop(100);
+    EXPECT_TRUE(tree_.search(50)); // Проверка, что корень остался
+}
+
+// Проверка удаления корневого узла (проверка логики замены)
+TEST_F(BinaryTreeTest, PopRootNode) {
+    ASSERT_TRUE(tree_.search(50));
+    tree_.pop(50);
+    EXPECT_FALSE(tree_.search(50));
+    // Проверка, что остальные элементы (например, 70) все еще доступны
+    EXPECT_TRUE(tree_.search(70));
+}
+
+} // namespace
