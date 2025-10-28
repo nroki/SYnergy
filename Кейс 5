@@ -1,0 +1,110 @@
+import os
+
+def generate_truboff_page():
+    """Генерирует HTML-страницу с информацией о компании "Трубофф"."""
+    
+    # ------------------ Определение стилей и шрифтов ------------------
+    # Примечание: 'Arial' используется как основной, заменяя неизвестный "официальный" шрифт.
+    # Остальные 5 шрифтов предложены как альтернативы.
+    
+    css_styles = """
+    <style>
+        body {
+            /* ОФИЦИАЛЬНЫЙ ШРИФТ (предположительно Arial, для примера) */
+            font-family: Arial, sans-serif; 
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            color: #007bff; /* Примерный синий цвет для заголовка */
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .alternative-fonts p {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        /* ------------------ 5 ВАРИАНТОВ АЛЬТЕРНАТИВНЫХ ШРИФТОВ ------------------ */
+        .font-1 { font-family: 'Times New Roman', serif; } /* Классический Serif */
+        .font-2 { font-family: 'Verdana', sans-serif; }   /* Четкий, легко читаемый Sans-Serif */
+        .font-3 { font-family: 'Georgia', serif; }        /* Элегантный Serif */
+        .font-4 { font-family: 'Trebuchet MS', sans-serif; } /* Современный Sans-Serif */
+        .font-5 { font-family: 'Open Sans', sans-serif; }  /* Популярный веб-шрифт (если подключен) */
+        
+        .note {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+            border-radius: 4px;
+        }
+    </style>
+    """
+    
+    # ------------------ Содержимое HTML-страницы ------------------
+    html_content = f"""
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Трубофф - Официальная информация</title>
+        {css_styles}
+        </head>
+    <body>
+        <div class="container">
+            <h1>Трубофф</h1>
+            <p><strong>Официальный шрифт компании (Arial):</strong></p>
+            <p>ООО «Трубофф» — ведущий поставщик трубопроводной арматуры и комплектующих для промышленных и строительных объектов. Мы гарантируем высокое качество продукции и оперативность поставок по всей территории России.</p>
+
+            <h2>Контактная информация</h2>
+            <p><strong>Адрес:</strong> 125009, г. Москва, ул. Тверская, д. 22, оф. 5</p>
+            <p><strong>Телефон:</strong> +7 (495) XXX-XX-XX</p>
+            <p><strong>Email:</strong> info@truboff.ru</p>
+
+            <div class="note">
+                <p><strong>Примечание:</strong> Если официальный шрифт компании является нестандартным (например, Google Font или кастомным), его необходимо подключить с помощью тега <code>&lt;link&gt;</code> в разделе <code>&lt;head&gt;</code>.</p>
+            </div>
+            
+            <hr>
+            
+            <h2>5 Альтернативных вариантов шрифтов</h2>
+            <div class="alternative-fonts">
+                <p class="font-1"><strong>1. Times New Roman (Serif):</strong> Пример текста с классическим деловым шрифтом.</p>
+                <p class="font-2"><strong>2. Verdana (Sans-Serif):</strong> Пример текста с чистым и хорошо читаемым шрифтом.</p>
+                <p class="font-3"><strong>3. Georgia (Serif):</strong> Пример текста с элегантным, хорошо масштабируемым шрифтом.</p>
+                <p class="font-4"><strong>4. Trebuchet MS (Sans-Serif):</strong> Пример текста с современным и дружелюбным шрифтом.</p>
+                <p class="font-5"><strong>5. Open Sans (Sans-Serif):</strong> Пример текста с популярным веб-шрифтом (требует подключения).</p>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
+
+    # ------------------ Запись в файл ------------------
+    file_path = "truboff_info.html"
+    try:
+        with open(file_path, "w", encoding="utf-8") as f:
+            f.write(html_content)
+        print(f"✅ Успешно сгенерирована HTML-страница: {os.path.abspath(file_path)}")
+        print("Откройте файл в браузере, чтобы увидеть результат.")
+    except IOError as e:
+        print(f"❌ Ошибка записи файла: {e}")
+
+if __name__ == "__main__":
+    generate_truboff_page()
