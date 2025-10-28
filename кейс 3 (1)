@@ -1,0 +1,40 @@
+namespace {
+
+class QueueTest : public ::testing::Test {
+protected:
+    // Объект очереди, доступный для всех тестовых случаев
+    Queue<int> queue_;
+    
+    // SetUp вызывается перед каждым TEST_F
+    void SetUp() override {
+        // Очередь будет чистой перед каждым тестом
+    }
+};
+
+// Проверка, что новая очередь изначально пуста
+TEST_F(QueueTest, IsInitiallyEmpty) {
+    ASSERT_TRUE(queue_.empty());
+}
+
+// Проверка корректной работы push и изменения состояния empty
+TEST_F(QueueTest, PushAddsElement) {
+    queue_.push(42);
+    ASSERT_FALSE(queue_.empty());
+}
+
+// Проверка порядка FIFO
+TEST_F(QueueTest, FIFOOrdering) {
+    queue_.push(10); // Первый
+    queue_.push(20); // Второй
+    EXPECT_EQ(10, queue_.pop()); // Должен выйти первый
+    EXPECT_EQ(20, queue_.pop()); // Должен выйти второй
+}
+
+// Проверка поведения pop на пустой очереди (должно вызвать исключение)
+TEST_F(QueueTest, PopOnEmptyQueueThrowsError) {
+    ASSERT_TRUE(queue_.empty());
+    // Предполагаем, что pop() выбрасывает std::out_of_range
+    EXPECT_THROW(queue_.pop(), std::out_of_range);
+}
+
+} // namespace
